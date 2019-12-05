@@ -67,6 +67,60 @@ Example for Google Chrome:
 - Go to "Trusted Root Certificate Authorities"
 - Click to "Import"
 
+### How to setup dnsmasq on Ubuntu
+
+#### Enable dnsmasq in NetworkManager
+
+Edit the file /etc/NetworkManager/NetworkManager.conf, and add the line dns=dnsmasq to the [main] section, it will look like this :
+
+```
+[main]
+plugins=ifupdown,keyfile
+dns=dnsmasq
+
+[ifupdown]
+managed=false
+
+[device]
+wifi.scan-rand-mac-address=no
+```
+
+#### Let NetworkManager manage /etc/resolv.conf
+
+```
+sudo rm /etc/resolv.conf ; sudo ln -s /var/run/NetworkManager/resolv.conf /etc/resolv.conf
+```
+
+#### Configure .test
+
+```
+echo 'address=/.test/127.0.0.1' | sudo tee /etc/NetworkManager/dnsmasq.d/test-wildcard.conf
+```
+
+#### Reload NetworkManager and testing
+
+NetworkManager should be reloaded for the changes to take effect.
+
+```
+sudo systemctl reload NetworkManager
+```
+
+Then we can verify that we can reach some usual site :
+
+```
+dig google.com +short
+172.217.21.174
+```
+
+And lastly verify that the .test and subdomains are resolved as 127.0.0.1:
+
+```
+dig podinfo.test some.sub.domain.test portal.sandbox.test +short
+127.0.0.1
+127.0.0.1
+127.0.0.1
+```
+
 ## How to use the new setup within the deploy folder on minikube
 
 First create a minikube cluster:
