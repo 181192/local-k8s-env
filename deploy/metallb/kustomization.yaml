@@ -1,0 +1,12 @@
+namespace: metallb-system
+
+resources:
+  - metallb-deployment.yaml
+
+configMapGenerator:
+  - name: config
+    files:
+      - config=configs/config.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

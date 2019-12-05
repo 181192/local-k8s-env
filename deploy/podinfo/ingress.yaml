@@ -1,0 +1,21 @@
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+  name: podinfo
+spec:
+  rules:
+  - host: podinfo.test
+    http:
+      paths:
+      - backend:
+          serviceName: podinfo
+          servicePort: 9898
+        path: /
+  tls:
+  - hosts:
+    - podinfo.test
+    secretName: podinfo-tls

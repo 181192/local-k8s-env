@@ -1,0 +1,17 @@
+namespace: default
+
+commonLabels:
+  app: podinfo
+  version: "3.1.4"
+
+images:
+  - name: stefanprodan/podinfo
+    newTag: "3.1.4"
+
+resources:
+  - hpa.yaml
+  - deployment.yaml
+  - service.yaml
+  - issuer.yaml
+  - certificate.yaml
+  - ingress.yaml

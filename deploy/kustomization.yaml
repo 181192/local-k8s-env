@@ -1,0 +1,11 @@
+resources:
+  - ca-key-pair.yaml
+
+bases:
+  - cert-manager
+  - nginx-ingress
+  - sealed-secrets
+  - tiller
+  # - local-path-storage
+  # - podinfo
+  # - metallb
