@@ -1,6 +1,6 @@
 # Local kubernetes environment
 
-## How to use the new setup within the deploy folder on k3d
+## How to setup on k3d
 
 [k3d](https://github.com/rancher/k3d) is a wrapper for running k3s in docker. k3s is a lightweight Kubernetes distribution by [Rancher](https://github.com/rancher/k3s).
 
@@ -121,7 +121,7 @@ dig podinfo.test some.sub.domain.test portal.sandbox.test +short
 127.0.0.1
 ```
 
-## How to use the new setup within the deploy folder on minikube
+## How to setup on minikube
 
 First create a minikube cluster:
 
