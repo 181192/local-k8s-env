@@ -1,6 +1,3 @@
-name: Infrastructure
-title: infrastructure
-version: HEAD
-display_version: LATEST
-nav:
-- modules/ROOT/nav.adoc
+name: infrastructure
+title: Infrastructure
+version: '1.0'
