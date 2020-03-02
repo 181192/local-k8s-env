@@ -2,6 +2,5 @@ name: Infrastructure
 title: infrastructure
 version: HEAD
 display_version: LATEST
-start_page: ROOT:index.adoc
 nav:
 - modules/ROOT/nav.adoc
