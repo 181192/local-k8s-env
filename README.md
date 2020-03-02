@@ -7,7 +7,7 @@
 k3d only requires docker to run. To install k3d run the following:
 
 ```
-curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | TAG=v1.3.4 bash
+curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | TAG=v1.6.0 bash
 ```
 
 The `setup.sh` script will create a new k3d cluster with 1 master and 2 worker nodes, it it doesn't already exists.
