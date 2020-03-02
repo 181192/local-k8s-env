@@ -1,0 +1,3 @@
+
+. Local development environment
+* xref:index.adoc[Setup]
