@@ -106,11 +106,12 @@ if [[ $(k3d list | grep $NAME) != *"$NAME"* ]]; then
     --name $NAME \
     --workers 2  \
     --server-arg --no-deploy=traefik \
+    --server-arg --tls-san="127.0.0.1" \
     --publish 80:80 \
     --publish 443:443 \
     --volume kube-volume:/opt/local-path-provisioner \
     --wait 300 \
-    --image docker.io/rancher/k3s:v0.7.0
+    --image docker.io/rancher/k3s:v0.9.0
 fi
 
 log "INFO" "Getting kubeconfig..."
