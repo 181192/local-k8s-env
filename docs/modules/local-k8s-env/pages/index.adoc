@@ -2,7 +2,7 @@
 
 == How to setup on k3d
 
-[k3d](https://github.com/rancher/k3d) is a wrapper for running k3s in docker. k3s is a lightweight Kubernetes distribution by [Rancher](https://github.com/rancher/k3s).
+https://github.com/rancher/k3d[k3d] is a wrapper for running k3s in docker. k3s is a lightweight Kubernetes distribution by https://github.com/rancher/k3s[Rancher].
 
 k3d only requires docker to run. To install k3d run the following:
 
@@ -12,7 +12,7 @@ curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | TAG=v1
 
 The `setup.sh` script will create a new k3d cluster with 1 master and 2 worker nodes, it it doesn't already exists.
 
-The cluster will be configured with a [local-path-provisioner](https://github.com/rancher/local-path-provisioner), to be able to use HostPath for persistent local storage within Kubernetes.
+The cluster will be configured with a https://github.com/rancher/local-path-provisioner[local-path-provisioner], to be able to use HostPath for persistent local storage within Kubernetes.
 
 The cluster will also bind port 80 and 443 to your host machine, such that you can deploy a nginx ingress controller with a LoadBalancer service type making it possible to use Ingress resources the same way as in a real cloud environment (no more port-forwarding og NodePort 🎉).
 
@@ -39,7 +39,7 @@ Couple of things to notice:
 - Run `docker stats` to show the cluster resource usage from the docker daemon.
 - To import local images to the cluster for development, you can use the `k3d i some-image:latest` or `k3d import-images some-image:latest`
 - The `setup.sh` can be runned as many times you want, if a cluster exists it will not recreate it, only re-apply the kubernetes manifests.
-- `docker-for-mac` default memory is set to 2GB, this may not be enough. In the [Advanced tab in Docker settings](https://docs.docker.com/docker-for-mac/#resources) you can change the resource limits.
+- `docker-for-mac` default memory is set to 2GB, this may not be enough. In the https://docs.docker.com/docker-for-mac/#resources[Advanced tab in Docker settings] you can change the resource limits.
 
 == `.test` certificate
 
