@@ -1,3 +1,2 @@
 
-. Local development environment
-* xref:index.adoc[Setup]
+* xref:local-k8s-env:index.adoc[Setup]
