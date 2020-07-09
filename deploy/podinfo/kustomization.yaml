@@ -2,11 +2,11 @@ namespace: default
 
 commonLabels:
   app: podinfo
-  version: "3.1.4"
+  version: "4.0.6"
 
 images:
   - name: stefanprodan/podinfo
-    newTag: "3.1.4"
+    newTag: "4.0.6"
 
 resources:
   - hpa.yaml
