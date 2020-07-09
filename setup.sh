@@ -107,6 +107,7 @@ if [[ $(k3d list | grep $NAME) != *"$NAME"* ]]; then
     --workers 2  \
     --server-arg --no-deploy=traefik \
     --server-arg --tls-san="127.0.0.1" \
+    --api-port 6444 \
     --publish 80:80 \
     --publish 443:443 \
     --volume kube-volume:/opt/local-path-provisioner \
