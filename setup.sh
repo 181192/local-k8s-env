@@ -78,7 +78,7 @@ host-machine using docker bridge network.
 EOF
 }
 
-NAME=k3s-default
+NAME=k3d-default
 
 while getopts hn: option; do
     case "${option}" in
@@ -93,35 +93,33 @@ require docker
 require kubectl
 require k3d
 
-k3d check-tools
-
 create_new_cluster=false
 
-if [[ $(k3d list | grep $NAME) != *"$NAME"* ]]; then
+if k3d cluster start $NAME; then
+    log "INFO" "Getting kubeconfig for cluster $NAME..."
+    k3d kubeconfig merge $NAME --merge-default-kubeconfig --switch-context
+else
+    log "INFO" "Creating new cluster $NAME..."
     create_new_cluster=true
 
     docker volume create kube-volume
 
-    k3d create \
-    --name $NAME \
-    --workers 2  \
-    --server-arg --no-deploy=traefik \
-    --server-arg --tls-san="127.0.0.1" \
+    k3d cluster create $NAME \
+    --servers 1 \
+    --agents 2 \
+    --no-lb \
+    --k3s-server-arg --no-deploy=traefik \
+    --k3s-server-arg --tls-san="127.0.0.1" \
     --api-port 6444 \
-    --publish 80:80 \
-    --publish 443:443 \
-    --volume kube-volume:/opt/local-path-provisioner \
-    --wait 300 \
-    --image docker.io/rancher/k3s:v0.9.0
+    --port 80:80@server[0] \
+    --port 443:443@server[0] \
+    --volume kube-volume:/var/lib/rancher/k3s/storage \
+    --timeout 300s \
+    --wait \
+    --switch-context \
+    --update-default-kubeconfig \
+    --image docker.io/rancher/k3s:v1.18.8-k3s1
 fi
-
-log "INFO" "Getting kubeconfig..."
-if $create_new_cluster; then
-    sleep 10
-fi
-
-KUBECONFIG="$(k3d get-kubeconfig --name=$NAME)"
-export KUBECONFIG
 
 kubectl label namespace kube-system certmanager.k8s.io/disable-validation=true --overwrite
 wait_for_deployment kube-dns kube-system k8s-app
@@ -131,8 +129,6 @@ kubectl apply -f deploy/ca-key-pair.yaml
 kubectl apply -k deploy/cert-manager
 kubectl apply -k deploy/nginx-ingress
 kubectl apply -k deploy/sealed-secrets
-kubectl apply -k deploy/tiller
-kubectl apply -k deploy/local-path-storage
 
 wait_for_deployment webhook
 sleep 10
