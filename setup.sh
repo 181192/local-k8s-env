@@ -130,6 +130,15 @@ kubectl apply -k deploy/cert-manager
 kubectl apply -k deploy/nginx-ingress
 kubectl apply -k deploy/sealed-secrets
 
+prometheusUrl="https://raw.githubusercontent.com/prometheus-community/helm-charts/main/charts/kube-prometheus-stack/crds/"
+kubectl apply -f ${prometheusUrl}crd-alertmanager.yaml
+kubectl apply -f ${prometheusUrl}crd-podmonitor.yaml
+kubectl apply -f ${prometheusUrl}crd-probe.yaml
+kubectl apply -f ${prometheusUrl}crd-prometheus.yaml
+kubectl apply -f ${prometheusUrl}crd-prometheusrules.yaml
+kubectl apply -f ${prometheusUrl}crd-servicemonitor.yaml
+kubectl apply -f ${prometheusUrl}crd-thanosrulers.yaml
+
 wait_for_deployment webhook
 sleep 10
 
