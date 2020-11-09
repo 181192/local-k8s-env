@@ -1,7 +1,10 @@
 
-* xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_on_k3d[How to setup on k3d]
-** xref:infrastructure:local-k8s-env:index.adoc#_test_certificate[Local .test certificate]
-*** xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_dnsmasq_on_ubuntu[How to setup dnsmasq on Ubuntu]
-* xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_on_minikube[How to setup on Minikube]
-** xref:infrastructure:local-k8s-env:index.adoc#_alternative_1_only_cluster_internal_services[Only cluster internal services]
-** xref:infrastructure:local-k8s-env:index.adoc#_alternative_2_ingress_and_loadbalancer_support[Ingress and LoadBalancer support]
+* xref:infrastructure:local-k8s-env:index.adoc[Local Kubernetes environment]
+
+** xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_on_k3d[How to setup on k3d]
+*** xref:infrastructure:local-k8s-env:index.adoc#_test_certificate[Local .test certificate]
+**** xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_dnsmasq_on_ubuntu[How to setup dnsmasq on Ubuntu]
+
+** xref:infrastructure:local-k8s-env:index.adoc#_how_to_setup_on_minikube[How to setup on Minikube]
+*** xref:infrastructure:local-k8s-env:index.adoc#_alternative_1_only_cluster_internal_services[Only cluster internal services]
+*** xref:infrastructure:local-k8s-env:index.adoc#_alternative_2_ingress_and_loadbalancer_support[Ingress and LoadBalancer support]
