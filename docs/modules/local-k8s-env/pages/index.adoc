@@ -17,7 +17,7 @@ The cluster will be configured with a https://github.com/rancher/local-path-prov
 
 The cluster will also bind port 80 and 443 to your host machine, such that you can deploy a nginx ingress controller with a LoadBalancer service type making it possible to use Ingress resources the same way as in a real cloud environment (no more port-forwarding og NodePort 🎉).
 
-The script will install and configure nginx-ingress, sealed-secrets, cert-manager, a cluster-wide tiller instance and an example application called `podinfo`.
+The script will install and configure ingress-nginx, sealed-secrets, cert-manager, a cluster-wide tiller instance and an example application called `podinfo`.
 
 ....
 ./setup.sh
