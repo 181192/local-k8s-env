@@ -1,5 +1,4 @@
 namespace: kube-system
 
 resources:
-  - sealed-secret-crd.yaml
-  - sealed-secret-deployment.yaml
+  - sealed-secrets.yaml
