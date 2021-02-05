@@ -1,5 +1,41 @@
 # Local kubernetes environment
 
+```
+$ ./setup.sh
+
+A bootstrapper script for k3d.
+
+This script will create a new k3d cluster with 1 master
+and 2 worker nodes, it it doesn't already exists.
+
+The cluster will be configured with a local-path-provisioner,
+to be able to use HostPath for persistent local storage within
+Kubernetes.
+
+The cluster will also bind port 80 and 443 to your host machine,
+such that you can deploy a nginx ingress controller with a
+LoadBalancer service type making it possible to use Ingress
+resources the same way as in a real cloud environment
+(no more port-forwarding and NodePort 🎉).
+
+The script will install and configure ingress-nginx, sealed-secrets,
+cert-manager and an example application called podinfo.
+
+Usage:
+    ./setup.sh [[-n name] | [-h]]
+
+Options:
+    -n value        Name of the cluster (default: k3s-default)
+    -h              Display this message
+
+Remeber to stop other running k3d clusters before starting/creating
+a new one, as the cluster is binding port 80 and 443 to the
+host-machine using docker bridge network.
+
+    k3d cluster list
+    k3d cluster stop [NAME] (defaults to k3s-default if no name argument)
+```
+
 ## How to setup on k3d
 
 [k3d](https://github.com/rancher/k3d) is a wrapper for running k3s in docker. k3s is a lightweight Kubernetes distribution by [Rancher](https://github.com/rancher/k3s).
@@ -7,8 +43,10 @@
 k3d only requires docker to run. To install k3d run the following:
 
 ```
-curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v3.0.2 bash
+curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v4.0.0 bash
 ```
+
+Or via [Homebrew](https://brew.sh/) `brew install k3d`
 
 The `setup.sh` script will create a new k3d cluster with 1 master and 2 worker nodes, it it doesn't already exists.
 
@@ -16,7 +54,7 @@ The cluster will be configured with a [local-path-provisioner](https://github.co
 
 The cluster will also bind port 80 and 443 to your host machine, such that you can deploy a nginx ingress controller with a LoadBalancer service type making it possible to use Ingress resources the same way as in a real cloud environment (no more port-forwarding og NodePort 🎉).
 
-The script will install and configure nginx-ingress, sealed-secrets, cert-manager, a cluster-wide tiller instance and an example application called `podinfo`.
+The script will install and configure ingress-nginx, sealed-secrets, cert-manager, a cluster-wide tiller instance and an example application called `podinfo`.
 
 ```
 ./setup.sh
@@ -32,12 +70,9 @@ You're now ready to use your cluster for local development! 🎉
 
 Couple of things to notice:
 
-- The kubernetes context for k3d clusters are not beeing merged into `$HOME/.kube/config`, when running the `setup.sh` script an environment variable `KUBECONFIG` is set in the current terminal that the `kubectl` uses. To get the context in other terminals run `export KUBECONFIG="$(k3d get-kubeconfig --name='k3s-default')"`.
-- The sealed secrets key needs to be replaced to work with other Flow Helm charts if you need to unseal sealed secrets. The sealed secrets key is located in LastPass. Use the `kubectl replace -f master.key && kubectl delete pod -n kube-system -l app.kubernetes.io/name=sealed-secrets` to update the sealed secrets controller with the correct private key.
-- To use PVC's the storage class needs to be set to `stacc-standard`
-- The secret `ca-key-pair` needs to be in the same namespace as the Ingress & Certificate resource. Often the ca-key-pair is included in Flow Helm chart's as default.
+- The secret `ca-key-pair` needs to be in the same namespace as the Issuer.
 - Run `docker stats` to show the cluster resource usage from the docker daemon.
-- To import local images to the cluster for development, you can use the `k3d i some-image:latest` or `k3d import-images some-image:latest`
+- To import local images to the cluster for development, you can use the `k3d image import some-image:latest` or `k3d image import some-image:latest -c k3s-default`
 - The `setup.sh` can be runned as many times you want, if a cluster exists it will not recreate it, only re-apply the kubernetes manifests.
 - `docker-for-mac` default memory is set to 2GB, this may not be enough. In the [Advanced tab in Docker settings](https://docs.docker.com/docker-for-mac/#resources) you can change the resource limits.
 
@@ -126,13 +161,12 @@ dig podinfo.test some.sub.domain.test portal.sandbox.test +short
 First create a minikube cluster:
 
 ```
-minikube start --cpus 4 --memory 8000 --disk-size 10g --kubernetes-version v1.14.8
+minikube start --cpus 4 --memory 8000 --disk-size 10g --kubernetes-version v1.20.2
 ```
 
 ### Alternative 1: Only cluster internal services
 
 ```
-kubectl apply -k deploy/tiller
 kubectl apply -k deploy/sealed-secrets
 ```
 
