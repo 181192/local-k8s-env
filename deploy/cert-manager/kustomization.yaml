@@ -1,5 +1,2 @@
-namespace: kube-system
-
 resources:
-  - cert-manager-crd.yaml
-  - cert-manager-deployment.yaml
+  - cert-manager.yaml
