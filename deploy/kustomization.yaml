@@ -3,7 +3,7 @@ resources:
 
 bases:
   - cert-manager
-  - nginx-ingress
+  - ingress-nginx
   - sealed-secrets
   # - podinfo
   # - metallb
